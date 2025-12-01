@@ -43,10 +43,10 @@ const IndexPage: React.FC = () => {
 
     return (
         <div>
-            <div style={{display:'flex',justifyContent:'flex-end',alignItems:'center',fontWeight:'bold',fontSize:16,marginBottom:8,color:'#fff',textShadow:'0 2px 4px rgba(0, 0, 0, 0.3)'}}>
+            <div style={{display:'flex',justifyContent:'flex-end',alignItems:'center',fontWeight:'bold',fontSize:16,marginBottom:8,color:'#1a5490'}}>
                 Tide Height (m)
             </div>
-            <h1 style={{textAlign:'center'}}>青岛未来两天潮汐数据</h1>
+            <h1 style={{textAlign:'center',color:'#1a5490'}}>青岛未来两天潮汐数据</h1>
             {tideDays.slice(0, 2).map((day, idx) => { // 只显示前两天
                 const tideType = day.type;
                 return (
