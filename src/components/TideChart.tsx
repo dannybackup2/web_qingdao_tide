@@ -24,10 +24,16 @@ function getLunarDateStr(solarDate: string): string {
         // Parse solar date "2025-12-02"
         const [year, month, day] = solarDate.split('-').map(Number);
         const lunar = Lunar.fromSolar(year, month, day);
+        if (!lunar) {
+            console.warn('Lunar conversion failed for date:', solarDate);
+            return '';
+        }
         const lunarMonth = lunar.getMonthInChinese();
         const lunarDay = lunar.getDayInChinese();
-        return `${lunarMonth}${lunarDay}`;
+        const result = `${lunarMonth}${lunarDay}`;
+        return result;
     } catch (e) {
+        console.error('Error converting lunar date:', solarDate, e);
         return '';
     }
 }
