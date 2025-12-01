@@ -23,17 +23,30 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
     const highTides = data.filter(d => d.type === '高潮');
     const lowTides = data.filter(d => d.type === '低潮');
 
+    const sandColor = '#F7E7B4'; // 沙滩色
+    const seaColor = '#3A8DFF'; // 海水蓝色
+
     const chartData = {
         labels: data.map(d => formatTime(d.time)),
         datasets: [
             {
                 label: 'Tide Height (m)',
                 data: data.map(d => d.height),
-                borderColor: 'blue',
-                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                borderColor: seaColor,
+                backgroundColor: function(context: any) {
+                    const chart = context.chart;
+                    const {ctx, chartArea} = chart;
+                    if (!chartArea) return seaColor;
+                    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                    gradient.addColorStop(0, sandColor); // 上方沙滩色
+                    gradient.addColorStop(0.5, sandColor);
+                    gradient.addColorStop(0.5, seaColor);
+                    gradient.addColorStop(1, seaColor); // 下方海水色
+                    return gradient;
+                },
                 fill: true,
                 pointRadius: data.map(d => d.type ? 6 : 2),
-                pointBackgroundColor: data.map(d => d.type === '高潮' ? 'red' : d.type === '低潮' ? 'green' : 'blue'),
+                pointBackgroundColor: data.map(d => d.type === '高潮' ? 'red' : d.type === '低潮' ? 'green' : seaColor),
             },
         ],
     };
@@ -64,7 +77,7 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
     };
 
     return (
-        <div style={{ margin: '32px 0', padding: 12, border: '1px solid #eee', borderRadius: 8 }}>
+        <div style={{ margin: '32px 0', padding: 12, border: '1px solid #eee', borderRadius: 8, background: 'linear-gradient(180deg, #F7E7B4 0%, #fff 40%, #E3F2FD 100%)' }}></div>
             {/* 日期和汛型并排，左上角显示 */}
             {date && (
                 <div style={{ fontWeight: 'bold', fontSize: 18, display: 'flex', alignItems: 'center' }}>
