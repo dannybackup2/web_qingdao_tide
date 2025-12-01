@@ -29,25 +29,14 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
     const chartData = {
         labels: data.map(d => formatTime(d.time)),
         datasets: [
-            // 主曲线，填充到下方（海水色）
             {
                 label: 'Tide Height (m)',
                 data: data.map(d => d.height),
                 borderColor: seaColor,
                 backgroundColor: seaColor,
-                fill: 'origin', // 填充到下方
+                fill: 'origin',
                 pointRadius: data.map(d => d.type ? 6 : 2),
                 pointBackgroundColor: data.map(d => d.type === '高潮' ? 'red' : d.type === '低潮' ? 'green' : seaColor),
-            },
-            // 沙滩色填充到上方
-            {
-                label: '沙滩填充',
-                data: data.map(d => d.height),
-                borderColor: 'rgba(0,0,0,0)', // 无边框
-                backgroundColor: sandColor,
-                fill: 'start', // 填充到上方
-                pointRadius: 0,
-                pointBackgroundColor: 'rgba(0,0,0,0)',
             },
         ],
     };
@@ -78,7 +67,13 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
     };
 
     return (
-        <div style={{ margin: '32px 0', padding: 12, border: '1px solid #eee', borderRadius: 8, background: 'linear-gradient(180deg, #F7E7B4 0%, #fff 40%, #E3F2FD 100%)' }}>
+        <div style={{
+            margin: '32px 0',
+            padding: 12,
+            border: '1px solid #eee',
+            borderRadius: 8,
+            background: sandColor // '#F7E7B4'
+        }}>
             {/* 日期和汛型并排，左上角显示 */}
             {date && (
                 <div style={{ fontWeight: 'bold', fontSize: 18, display: 'flex', alignItems: 'center' }}>
