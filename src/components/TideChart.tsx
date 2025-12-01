@@ -111,32 +111,62 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
         ],
     };
 
-    // Plugin to draw patterns behind the chart
+    // Plugin to draw patterns following the tide curve
     const patternPlugin = {
         id: 'patternPlugin',
-        beforeDatasetsDraw(chart: any) {
+        afterDatasetsDraw(chart: any) {
             const ctx = chart.ctx;
             const chartArea = chart.chartArea;
             const yScale = chart.scales.y;
-            const zeroPixel = yScale.getPixelForValue(0);
+            const xScale = chart.scales.x;
+
+            // Get the dataset
+            const dataset = chart.data.datasets[0];
+            const meta = chart.getDatasetMeta(0);
 
             // Save context state
             ctx.save();
 
-            if (zeroPixel < chartArea.bottom && zeroPixel > chartArea.top) {
-                // Draw sand pattern above zero
-                const sandPattern = createSandPattern(ctx, chartArea.width, zeroPixel - chartArea.top);
-                if (sandPattern) {
-                    ctx.fillStyle = sandPattern;
-                    ctx.fillRect(chartArea.left, chartArea.top, chartArea.width, zeroPixel - chartArea.top);
+            // Draw water pattern below the curve
+            const waterPattern = createWaterPattern(ctx, chartArea.width, chartArea.height);
+            if (waterPattern) {
+                ctx.fillStyle = waterPattern;
+                ctx.beginPath();
+                ctx.moveTo(chartArea.left, chartArea.bottom);
+
+                // Trace along the curve
+                for (let i = 0; i < data.length; i++) {
+                    const point = meta.data[i];
+                    if (point) {
+                        ctx.lineTo(point.x, point.y);
+                    }
                 }
 
-                // Draw water pattern below zero
-                const waterPattern = createWaterPattern(ctx, chartArea.width, chartArea.bottom - zeroPixel);
-                if (waterPattern) {
-                    ctx.fillStyle = waterPattern;
-                    ctx.fillRect(chartArea.left, zeroPixel, chartArea.width, chartArea.bottom - zeroPixel);
+                // Close the path at the bottom
+                ctx.lineTo(chartArea.right, chartArea.bottom);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // Draw sand pattern above the curve
+            const sandPattern = createSandPattern(ctx, chartArea.width, chartArea.height);
+            if (sandPattern) {
+                ctx.fillStyle = sandPattern;
+                ctx.beginPath();
+                ctx.moveTo(chartArea.left, chartArea.top);
+
+                // Trace along the curve
+                for (let i = 0; i < data.length; i++) {
+                    const point = meta.data[i];
+                    if (point) {
+                        ctx.lineTo(point.x, point.y);
+                    }
                 }
+
+                // Close the path at the top
+                ctx.lineTo(chartArea.right, chartArea.top);
+                ctx.closePath();
+                ctx.fill();
             }
 
             // Restore context state
