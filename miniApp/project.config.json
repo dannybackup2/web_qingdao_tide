@@ -1,0 +1,56 @@
+{
+  "miniprogramRoot": "dist/weapp/",
+  "projectname": "qingdao-tide-miniapp",
+  "description": "青岛潮汐数据微信小程序",
+  "appid": "YOUR_APP_ID",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "enableEngineNative": false,
+    "enableNormalVirtualHost": false,
+    "useIsolateContext": true,
+    "minifyWXSS": true,
+    "showES6CompileWarning": false,
+    "useCompilerModule": true,
+    "ignoreUploadUnusedFiles": true
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "file",
+        "value": ".gitignore"
+      }
+    ]
+  }
+}
