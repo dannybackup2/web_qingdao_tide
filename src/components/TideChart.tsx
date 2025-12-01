@@ -178,8 +178,8 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
             // Save context state
             ctx.save();
 
-            // Draw water pattern below the curve
-            const waterPattern = createWaterPattern(ctx, chartArea.width, chartArea.height);
+            // Draw water pattern below the curve with animation
+            const waterPattern = createWaterPattern(ctx, chartArea.width, chartArea.height, animationRef.current);
             if (waterPattern) {
                 ctx.fillStyle = waterPattern;
                 ctx.beginPath();
