@@ -63,11 +63,11 @@ const IndexPage: React.FC = () => {
             })}
             {/* 三个实时图像分区，地点为石老人、栈桥、小麦岛 */}
             <div style={{ height: 24 }} />
-            <h2 style={{color:'#fff',marginTop:40,marginBottom:24,textShadow:'0 2px 8px rgba(0, 0, 0, 0.3)',textAlign:'center',fontSize:20}}>实时图像</h2>
+            <h2 style={{color:'#1a5490',marginTop:40,marginBottom:24,textAlign:'center',fontSize:20,fontWeight:'bold'}}>实时图像</h2>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 32, gap: '12px' }}>
                 {camImgUrls.map((url, idx) => (
                     <div key={idx} style={{ flex: 1, textAlign: 'center' }}>
-                        <div style={{ fontWeight: 'bold', marginBottom: 12, color: '#fff', fontSize: 16, textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>{camNames[idx]}</div>
+                        <div style={{ fontWeight: 'bold', marginBottom: 12, color: '#1a5490', fontSize: 16 }}>{camNames[idx]}</div>
                         <div style={{ background: 'rgba(255, 255, 255, 0.1)', height: 180, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid rgba(255, 255, 255, 0.2)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)' }}>
                             <img
                                 src={url}
