@@ -29,24 +29,25 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
     const chartData = {
         labels: data.map(d => formatTime(d.time)),
         datasets: [
+            // 主曲线，填充到下方（海水色）
             {
                 label: 'Tide Height (m)',
                 data: data.map(d => d.height),
                 borderColor: seaColor,
-                backgroundColor: function(context: any) {
-                    const chart = context.chart;
-                    const {ctx, chartArea} = chart;
-                    if (!chartArea) return seaColor;
-                    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                    gradient.addColorStop(0, sandColor); // 上方沙滩色
-                    gradient.addColorStop(0.5, sandColor);
-                    gradient.addColorStop(0.5, seaColor);
-                    gradient.addColorStop(1, seaColor); // 下方海水色
-                    return gradient;
-                },
-                fill: true,
+                backgroundColor: seaColor,
+                fill: 'origin', // 填充到下方
                 pointRadius: data.map(d => d.type ? 6 : 2),
                 pointBackgroundColor: data.map(d => d.type === '高潮' ? 'red' : d.type === '低潮' ? 'green' : seaColor),
+            },
+            // 沙滩色填充到上方
+            {
+                label: '沙滩填充',
+                data: data.map(d => d.height),
+                borderColor: 'rgba(0,0,0,0)', // 无边框
+                backgroundColor: sandColor,
+                fill: 'start', // 填充到上方
+                pointRadius: 0,
+                pointBackgroundColor: 'rgba(0,0,0,0)',
             },
         ],
     };
