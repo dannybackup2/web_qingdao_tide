@@ -226,11 +226,10 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
         <div style={{
             margin: '32px 0',
             padding: 12,
-            border: '1px solid rgba(238, 238, 238, 0.3)',
+            border: '1px solid rgba(100, 180, 220, 0.3)',
             borderRadius: 8,
-            background: 'rgba(247, 231, 180, 0.95)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
-            backdropFilter: 'blur(10px)'
+            background: 'rgba(247, 231, 180, 0.9)',
+            boxShadow: '0 4px 12px rgba(100, 150, 200, 0.1)'
         }}>
             {/* 日期和汛型并排，左上角显示 */}
             {date && (
