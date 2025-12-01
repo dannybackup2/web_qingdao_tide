@@ -11,14 +11,7 @@ const camImgUrls = [
   '/images/xiaomaidao.jpg'
 ];
 
-function getTideType(dateStr: string) {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    const lunar = Lunar.fromYmd(y, m, d);
-    const day = lunar.getDay();
-    if ([1,2,14,15,16,17,29,30].includes(day)) return '活汛';
-    if ([8,9,22,23].includes(day)) return '死汛';
-    return '中汛';
-}
+// 已弃用本地 getTideType，统一使用 utils/fetchTideData.ts 中的 getTideType
 
 const IndexPage: React.FC = () => {
     const [tideDays, setTideDays] = useState<TideDay[]>([]);
@@ -55,11 +48,7 @@ const IndexPage: React.FC = () => {
             </div>
             <h1>青岛未来两天潮汐数据</h1>
             {tideDays.slice(0, 2).map((day, idx) => { // 只显示前两天
-                const tideType = getTideType(day.date);
-                let color = '#222';
-                if (tideType === '活汛') color = 'red';
-                else if (tideType === '死汛') color = '#007b7b';
-                else if (tideType === '中汛') color = '#888800';
+                const tideType = day.type;
                 return (
                     <div key={day.date}>
                         {/* 传递汛型到 TideChart，显示在日期右侧 */}
@@ -67,7 +56,7 @@ const IndexPage: React.FC = () => {
                             data={day.data}
                             date={day.date}
                         >
-                            <span style={{marginLeft:12,color,fontSize:16,fontWeight:'bold'}}>{tideType}</span>
+                            <span style={{marginLeft:12,fontSize:16,fontWeight:'bold'}}>{tideType}</span>
                         </TideChart>
                     </div>
                 );
