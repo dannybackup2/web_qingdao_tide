@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import Taro from '@tarojs/taro';
 import { Canvas } from '@tarojs/components';
 import { TideData } from '../../types/tide';
-import { formatTime, getLunarDateStr } from '../../utils/helpers';
+import { getLunarDateStr } from '../../utils/helpers';
 import { TideChartRenderer } from '../../utils/canvasChart';
 import styles from './index.module.scss';
 
@@ -12,26 +13,36 @@ interface TideChartProps {
 }
 
 const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
-  const canvasRef = useRef<any>(null);
+  const canvasId = `tideChart-${date || Date.now()}`;
 
   useEffect(() => {
-    if (!canvasRef.current || !data.length) return;
+    if (!data.length) return;
 
     const drawChart = async () => {
-      const canvas = await canvasRef.current?.getContext('2d');
-      if (!canvas) return;
+      try {
+        const ctx = Taro.createCanvasContext(canvasId);
+        if (!ctx) {
+          console.error('[TideChart] Failed to create canvas context');
+          return;
+        }
 
-      const renderer = new TideChartRenderer(data, {
-        width: 600,
-        height: 300,
-        padding: 40,
-      });
+        const renderer = new TideChartRenderer(data, {
+          width: 600,
+          height: 300,
+          padding: 40,
+        });
 
-      renderer.drawChart(canvas);
+        renderer.drawChart(ctx);
+        await ctx.draw();
+      } catch (error) {
+        console.error('[TideChart] Error drawing chart:', error);
+      }
     };
 
-    drawChart();
-  }, [data]);
+    // Delay drawing to ensure canvas is mounted
+    const timer = setTimeout(drawChart, 100);
+    return () => clearTimeout(timer);
+  }, [data, canvasId]);
 
   const highTides = data.filter(d => d.type === '高潮');
   const lowTides = data.filter(d => d.type === '低潮');
