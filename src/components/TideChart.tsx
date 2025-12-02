@@ -238,7 +238,7 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, children }) => {
                 <span style={{ color: '#d32f2f', marginRight: 12, fontWeight: 500 }}>高潮: {highTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}</span>
                 <span style={{ color: '#388e3c', fontWeight: 500 }}>低潮: {lowTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}</span>
             </div>
-            <div style={{ height: 240, position: 'relative' }}>
+            <div style={{ height: 260, position: 'relative' }}>
                 <Line ref={chartRef} data={chartData} options={options} plugins={[patternPlugin]} />
             </div>
         </div>
