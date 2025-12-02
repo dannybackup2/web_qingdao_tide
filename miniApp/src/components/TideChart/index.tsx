@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 import { TideData } from '../../types/tide';
 import { formatTime, getLunarDateStr } from '../../utils/helpers';
 import { TideChartRenderer } from '../../utils/canvasChart';
@@ -12,26 +13,31 @@ interface TideChartProps {
 }
 
 const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
-  const canvasRef = useRef<any>(null);
+  const canvasId = useRef<string>(`tideChart-${Math.random().toString(36).substr(2, 9)}`).current;
 
   useEffect(() => {
-    if (!canvasRef.current || !data.length) return;
+    if (!data.length) return;
 
     const drawChart = async () => {
-      const canvas = await canvasRef.current?.getContext('2d');
-      if (!canvas) return;
+      try {
+        const ctx = Taro.createCanvasContext(canvasId);
+        if (!ctx) return;
 
-      const renderer = new TideChartRenderer(data, {
-        width: 600,
-        height: 300,
-        padding: 40,
-      });
+        const renderer = new TideChartRenderer(data, {
+          width: 600,
+          height: 300,
+          padding: 40,
+        });
 
-      renderer.drawChart(canvas);
+        renderer.drawChart(ctx);
+        ctx.draw();
+      } catch (error) {
+        console.error('Error drawing chart:', error);
+      }
     };
 
     drawChart();
-  }, [data]);
+  }, [data, canvasId]);
 
   const highTides = data.filter(d => d.type === '高潮');
   const lowTides = data.filter(d => d.type === '低潮');
