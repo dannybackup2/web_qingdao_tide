@@ -118,14 +118,18 @@ export class TideChartRenderer {
     ctx.stroke();
 
     ctx.fillStyle = '#666';
-    (ctx as any).font = '12px sans-serif';
+    try {
+      (ctx as any).font = '24px sans-serif';
+    } catch (e) {
+      console.warn('Font property not supported');
+    }
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
     for (let i = 0; i <= 4; i++) {
       const height = this.minHeight + ((this.maxHeight - this.minHeight) / 4) * i;
       const y = this.config.height - this.config.padding - ((height - this.minHeight) / (this.maxHeight - this.minHeight)) * (this.config.height - 2 * this.config.padding);
-      ctx.fillText(height.toFixed(1), this.config.padding - 20, y - 6);
+      ctx.fillText(height.toFixed(1), this.config.padding - 40, y - 12);
     }
   }
 
