@@ -1,8 +1,8 @@
 {
-  "miniprogramRoot": "./dist",
-  "projectname": "myApp",
+  "miniprogramRoot": "./",
+  "projectname": "小岛的潮起潮落",
   "description": "Qingdao Tide",
-  "appid": "touristappid",
+  "appid": "wxf12ea2f5844ea358",
   "setting": {
     "urlCheck": true,
     "es6": false,

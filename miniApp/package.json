@@ -21,17 +21,18 @@
     "maintained node versions"
   ],
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "@tarojs/plugin-platform-weapp": "4.1.9",
-    "@tarojs/plugin-framework-react": "4.1.9",
-    "@tarojs/runtime": "4.1.9",
-    "@tarojs/taro": "4.1.9",
-    "@tarojs/react": "4.1.9",
-    "@tarojs/shared": "4.1.9",
     "@tarojs/components": "4.1.9",
+    "@tarojs/plugin-framework-react": "4.1.9",
+    "@tarojs/plugin-platform-weapp": "4.1.9",
+    "@tarojs/react": "4.1.9",
+    "@tarojs/runtime": "4.1.9",
+    "@tarojs/shared": "4.1.9",
+    "@tarojs/taro": "4.1.9",
     "axios": "^1.6.0",
     "lunar-javascript": "^1.6.12",
+    "miniprogram-ci": "^2.1.26",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "zrender": "^5.4.4"
   },
   "devDependencies": {
@@ -43,9 +44,10 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@tarojs/cli": "4.1.9",
     "@tarojs/plugin-generator": "4.1.9",
+    "@tarojs/plugin-platform-h5": "4.1.9",
     "@tarojs/vite-runner": "4.1.9",
-    "@types/react": "^18.0.0",
     "@types/node": "^16.11.56",
+    "@types/react": "^18.0.0",
     "@vitejs/plugin-react": "^4.3.0",
     "babel-preset-taro": "4.1.9",
     "eslint": "^8.57.0",
@@ -64,4 +66,3 @@
     "vite": "^4.2.0"
   }
 }
-
