@@ -14,15 +14,23 @@ interface TideChartProps {
 
 const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
   const canvasId = useRef<string>(`tideChart-${Math.random().toString(36).substr(2, 9)}`).current;
+  const renderTimeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (!data.length) return;
 
-    const drawChart = async () => {
+    // Clear any previous timeout
+    if (renderTimeoutRef.current) {
+      clearTimeout(renderTimeoutRef.current);
+    }
+
+    const drawChart = () => {
       try {
-        // Use this for proper component context in Taro
-        const ctx = Taro.createCanvasContext(canvasId, this);
-        if (!ctx) return;
+        const ctx = Taro.createCanvasContext(canvasId);
+        if (!ctx) {
+          console.warn('Canvas context not available');
+          return;
+        }
 
         const renderer = new TideChartRenderer(data, {
           width: 600,
@@ -31,18 +39,20 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
         });
 
         renderer.drawChart(ctx);
-
-        // Add a small delay to ensure canvas is ready
-        await new Promise(resolve => setTimeout(resolve, 100));
         ctx.draw();
       } catch (error) {
         console.error('Chart rendering error:', error);
       }
     };
 
-    // Use a small delay to ensure component is mounted
-    const timer = setTimeout(drawChart, 200);
-    return () => clearTimeout(timer);
+    // Delay to ensure canvas is mounted and ready
+    renderTimeoutRef.current = setTimeout(drawChart, 300);
+
+    return () => {
+      if (renderTimeoutRef.current) {
+        clearTimeout(renderTimeoutRef.current);
+      }
+    };
   }, [data, canvasId]);
 
   const highTides = data.filter(d => d.type === '高潮');
