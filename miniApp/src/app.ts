@@ -1,14 +1,17 @@
-import { Component } from 'react';
-import './app.scss';
+import { PropsWithChildren } from 'react'
+import { useLaunch } from '@tarojs/taro'
 
-class App extends Component {
-  componentDidMount() {
-    console.log('Qingdao Tide MiniApp started');
-  }
+import './app.scss'
 
-  render() {
-    return this.props.children;
-  }
+function App({ children }: PropsWithChildren<any>) {
+  useLaunch(() => {
+    console.log('App launched.')
+  })
+
+  // children 是将要会渲染的页面
+  return children
 }
+  
 
-export default App;
+
+export default App
