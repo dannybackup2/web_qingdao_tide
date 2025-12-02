@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Canvas } from '@tarojs/components';
+import { View, Text, Canvas } from '@tarojs/components';
 import { TideData } from '../../types/tide';
 import { formatTime, getLunarDateStr } from '../../utils/helpers';
 import { TideChartRenderer } from '../../utils/canvasChart';
@@ -37,24 +37,24 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
   const lowTides = data.filter(d => d.type === '低潮');
 
   return (
-    <div className={styles.container}>
+    <View className={styles.container}>
       {date && (
-        <div className={styles.header}>
-          <span className={styles.date}>
+        <View className={styles.header}>
+          <Text className={styles.date}>
             {date} ({getLunarDateStr(date)})
-          </span>
-          {tideType && <span className={styles.tideType}>{tideType}</span>}
-        </div>
+          </Text>
+          {tideType && <Text className={styles.tideType}>{tideType}</Text>}
+        </View>
       )}
 
-      <div className={styles.tideInfo}>
-        <span className={styles.highTide}>
+      <View className={styles.tideInfo}>
+        <Text className={styles.highTide}>
           高潮: {highTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}
-        </span>
-        <span className={styles.lowTide}>
+        </Text>
+        <Text className={styles.lowTide}>
           低潮: {lowTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}
-        </span>
-      </div>
+        </Text>
+      </View>
 
       <Canvas
         ref={canvasRef}
@@ -62,7 +62,7 @@ const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
         canvasId="tideChart"
         type="2d"
       />
-    </div>
+    </View>
   );
 };
 
