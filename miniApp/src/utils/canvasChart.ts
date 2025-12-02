@@ -188,7 +188,11 @@ export class TideChartRenderer {
 
   private drawLabels(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = '#666';
-    (ctx as any).font = '11px sans-serif';
+    try {
+      (ctx as any).font = '20px sans-serif';
+    } catch (e) {
+      console.warn('Font property not supported');
+    }
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
@@ -196,7 +200,7 @@ export class TideChartRenderer {
     for (let i = 0; i < this.points.length; i += labelStep) {
       const point = this.points[i];
       const timeLabel = point.time.slice(11, 16);
-      ctx.fillText(timeLabel, point.x, this.config.height - this.config.padding + 10);
+      ctx.fillText(timeLabel, point.x, this.config.height - this.config.padding + 20);
     }
   }
 }
