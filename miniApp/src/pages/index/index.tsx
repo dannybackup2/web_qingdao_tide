@@ -7,9 +7,9 @@ import styles from './index.module.scss';
 
 const camNames = ['石老人', '栈桥', '小麦岛'];
 const camImgUrls = [
-  '/images/shilaoren.jpg',
-  '/images/zhanqiao.jpg',
-  '/images/xiaomaidao.jpg'
+  require('../../assets/images/shilaoren.jpg'),
+  require('../../assets/images/zhanqiao.jpg'),
+  require('../../assets/images/xiaomaidao.jpg')
 ];
 
 const IndexPage: React.FC = () => {
