@@ -177,7 +177,7 @@ export class TideChartRenderer {
 
   private drawLabels(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = '#666';
-    ctx.font = '11px Arial';
+    (ctx as any).font = '11px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'top';
 
