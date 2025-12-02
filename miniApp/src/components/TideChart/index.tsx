@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Canvas } from '@tarojs/components';
+import { Canvas, View, Text } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 import { TideData } from '../../types/tide';
-import { formatTime, getLunarDateStr } from '../../utils/helpers';
+import { getLunarDateStr } from '../../utils/helpers';
 import { TideChartRenderer } from '../../utils/canvasChart';
 import styles from './index.module.scss';
 
@@ -12,57 +13,61 @@ interface TideChartProps {
 }
 
 const TideChart: React.FC<TideChartProps> = ({ data, date, tideType }) => {
-  const canvasRef = useRef<any>(null);
+  const canvasId = useRef<string>(`tideChart-${Math.random().toString(36).substr(2, 9)}`).current;
 
   useEffect(() => {
-    if (!canvasRef.current || !data.length) return;
+    if (!data.length) return;
 
     const drawChart = async () => {
-      const canvas = await canvasRef.current?.getContext('2d');
-      if (!canvas) return;
+      try {
+        const ctx = Taro.createCanvasContext(canvasId);
+        if (!ctx) return;
 
-      const renderer = new TideChartRenderer(data, {
-        width: 600,
-        height: 300,
-        padding: 40,
-      });
+        const renderer = new TideChartRenderer(data, {
+          width: 600,
+          height: 300,
+          padding: 40,
+        });
 
-      renderer.drawChart(canvas);
+        renderer.drawChart(ctx);
+        ctx.draw();
+      } catch (error) {
+        console.error('Error drawing chart:', error);
+      }
     };
 
     drawChart();
-  }, [data]);
+  }, [data, canvasId]);
 
   const highTides = data.filter(d => d.type === '高潮');
   const lowTides = data.filter(d => d.type === '低潮');
 
   return (
-    <div className={styles.container}>
+    <View className={styles.container}>
       {date && (
-        <div className={styles.header}>
-          <span className={styles.date}>
+        <View className={styles.header}>
+          <Text className={styles.date}>
             {date} ({getLunarDateStr(date)})
-          </span>
-          {tideType && <span className={styles.tideType}>{tideType}</span>}
-        </div>
+          </Text>
+          {tideType && <Text className={styles.tideType}>{tideType}</Text>}
+        </View>
       )}
 
-      <div className={styles.tideInfo}>
-        <span className={styles.highTide}>
+      <View className={styles.tideInfo}>
+        <Text className={styles.highTide}>
           高潮: {highTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}
-        </span>
-        <span className={styles.lowTide}>
+        </Text>
+        <Text className={styles.lowTide}>
           低潮: {lowTides.map(d => d.time.slice(11, 16)).join(' | ') || '无'}
-        </span>
-      </div>
+        </Text>
+      </View>
 
       <Canvas
-        ref={canvasRef}
         className={styles.canvas}
-        canvasId="tideChart"
+        canvasId={canvasId}
         type="2d"
       />
-    </div>
+    </View>
   );
 };
 
