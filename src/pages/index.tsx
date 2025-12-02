@@ -38,11 +38,14 @@ const IndexPage: React.FC = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading tidal data...</div>;
+        return <div style={{padding: '20px', textAlign: 'center', color: '#666'}}>Loading tidal data...</div>;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div style={{padding: '20px', margin: '20px', backgroundColor: '#ffebee', border: '2px solid #f44336', borderRadius: '8px', color: '#c62828', fontSize: '14px', whiteSpace: 'pre-wrap', wordBreak: 'break-word'}}>
+            <div style={{fontWeight: 'bold', marginBottom: '8px'}}>Error loading tide data:</div>
+            {error}
+        </div>;
     }
 
     return (
